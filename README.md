@@ -11,5 +11,4 @@ This project deploys a highly available web application using AWS services. Traf
 3. Secure access using security groups
 4. Outbound internet access via NAT Gateway
 
-![WhatsApp Image 2026-02-05 at 9 46 27 PM](https://github.com/user-attachments/assets/c08b01ee-338f-4136-8562-223b254732c2)
-
+![WhatsApp Image 2026-02-05 at 10 08 29 PM (1)](https://github.com/user-attachments/assets/1d547187-bace-4ede-bf12-c13919d2cc3c)
