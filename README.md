@@ -58,20 +58,27 @@ This project deploys a highly available web application using AWS services. Traf
 2. Configured listener on port 80
 3. Registered EC2 instances in target group
 4. Enabled health checks
+5. Health checks configured on path `/` using HTTP
+
    
 ## 5. Validation
 1. Accessed application using ALB DNS name
 2. Confirmed successful response
 3. Verified load distribution between EC2 instances
-instnace -> 1
+Instance 1
    
 <img width="1364" height="718" alt="Screenshot 2026-02-05 215142" src="https://github.com/user-attachments/assets/e8168f58-2937-4256-b02b-887fdfdc8d3a" />
 
-instance -> 2
+instance  2
 
 <img width="1366" height="717" alt="Screenshot 2026-02-05 215156" src="https://github.com/user-attachments/assets/c57a3695-c0bc-49b8-a62b-046afdc16498" />
 
 # Security Group Configuration
+
+- EC2 instances do not have public IPs
+- EC2 instances are not directly accessible from the internet
+- All inbound traffic to EC2 flows only through the Application Load Balancer
+
 ## ALB Security Group
 1. Inbound: HTTP (80) from 0.0.0.0/0
 2. Outbound: All traffic allowed
@@ -79,3 +86,23 @@ instance -> 2
 ## EC2 Security Group
 1. Inbound: HTTP (80) from ALB Security Group only
 2. Outbound: All traffic allowed via NAT Gateway
+
+## Configuration Files
+
+### Nginx Default Configuration
+Nginx runs on port 80 using the default configuration provided by Amazon Linux.
+
+### HTML Page
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body style="text-align: center; font-family: Arial; margin-top: 100px;">
+    <h1>Hello World!</h1>
+    <p>Instance ID: <strong>{{INSTANCE_ID}}</strong></p>
+    <p>Availability Zone: <strong>{{AVAILABILITY_ZONE}}</strong></p>
+    <p>Served by: <strong>Nginx</strong></p>
+</body>
+</html>
