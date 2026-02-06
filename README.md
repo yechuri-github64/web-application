@@ -78,6 +78,7 @@ instance  2
 - EC2 instances do not have public IPs
 - EC2 instances are not directly accessible from the internet
 - All inbound traffic to EC2 flows only through the Application Load Balancer
+- NAT Gateway is used only for outbound internet access (package updates, installs)
 
 ## ALB Security Group
 1. Inbound: HTTP (80) from 0.0.0.0/0
