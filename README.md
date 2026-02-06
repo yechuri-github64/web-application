@@ -89,11 +89,29 @@ instance  2
 
 ## Configuration Files
 
-### Nginx Default Configuration
-Nginx runs on port 80 using the default configuration provided by Amazon Linux.
+## EC2 User Data Script
 
-### HTML Page
+The EC2 instances are configured using a user data script during launch.  
+This script installs and configures Nginx, retrieves instance metadata securely using IMDSv2, and dynamically generates a custom HTML page.
 
+### User Data Script
+```bash
+#!/bin/bash
+dnf update -y
+dnf install nginx -y
+systemctl enable nginx
+systemctl start nginx
+
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/instance-id)
+
+AZ=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/placement/availability-zone)
+
+cat <<EOF > /usr/share/nginx/html/index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,8 +119,9 @@ Nginx runs on port 80 using the default configuration provided by Amazon Linux.
 </head>
 <body style="text-align: center; font-family: Arial; margin-top: 100px;">
     <h1>Hello World!</h1>
-    <p>Instance ID: <strong>{{INSTANCE_ID}}</strong></p>
-    <p>Availability Zone: <strong>{{AVAILABILITY_ZONE}}</strong></p>
+    <p>Instance ID: <strong>$INSTANCE_ID</strong></p>
+    <p>Availability Zone: <strong>$AZ</strong></p>
     <p>Served by: <strong>Nginx</strong></p>
 </body>
 </html>
+EOF
