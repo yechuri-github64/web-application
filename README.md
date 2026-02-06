@@ -63,9 +63,13 @@ This project deploys a highly available web application using AWS services. Traf
 1. Accessed application using ALB DNS name
 2. Confirmed successful response
 3. Verified load distribution between EC2 instances
+instnace -> 1
+   
 <img width="1364" height="718" alt="Screenshot 2026-02-05 215142" src="https://github.com/user-attachments/assets/e8168f58-2937-4256-b02b-887fdfdc8d3a" />
 
+instance -> 2
 
+<img width="1366" height="717" alt="Screenshot 2026-02-05 215156" src="https://github.com/user-attachments/assets/c57a3695-c0bc-49b8-a62b-046afdc16498" />
 
 # Security Group Configuration
 ## ALB Security Group
